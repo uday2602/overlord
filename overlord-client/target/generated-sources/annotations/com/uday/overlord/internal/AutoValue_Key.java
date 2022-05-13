@@ -1,9 +1,7 @@
 
-package com.uday.overlord;
+package com.uday.overlord.internal;
 
 import javax.annotation.Generated;
-
-import com.uday.overlord.internal.Key;
 
 @Generated("com.google.auto.value.processor.AutoValueProcessor")
  final class AutoValue_Key extends Key {

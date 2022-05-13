@@ -1,10 +1,12 @@
-package com.uday.overlord;
+package com.uday.overlord.internal;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.inject.Inject;
+
+import com.uday.overlord.internal.Value;
 
 public class FlusherImpl implements Flusher {
 

@@ -1,4 +1,4 @@
-package com.uday.overlord;
+package com.uday.overlord.internal;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,6 +7,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import com.uday.overlord.contracts.Environment;
+import com.uday.overlord.contracts.Overlord;
 
 @Singleton
 public class OverlordImpl implements Overlord {

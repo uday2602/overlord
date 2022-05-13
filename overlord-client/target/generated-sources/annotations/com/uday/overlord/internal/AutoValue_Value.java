@@ -1,11 +1,9 @@
 
-package com.uday.overlord;
+package com.uday.overlord.internal;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.Generated;
-
-import com.uday.overlord.internal.Value;
 
 @Generated("com.google.auto.value.processor.AutoValueProcessor")
  final class AutoValue_Value extends Value {

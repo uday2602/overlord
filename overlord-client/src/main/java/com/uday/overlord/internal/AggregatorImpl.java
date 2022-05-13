@@ -1,4 +1,4 @@
-package com.uday.overlord;
+package com.uday.overlord.internal;
 
 import java.util.Collection;
 import java.util.HashMap;

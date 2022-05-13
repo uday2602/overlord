@@ -1,10 +1,10 @@
-package com.uday.overlord;
-
 import com.google.common.collect.ImmutableMap;
+import com.uday.overlord.contracts.Environment;
 
 import java.util.Map;
 
-public class Environment {
+public class Env implements Environment {
+    @Override
     public Map<String, String> getTags() {
         return ImmutableMap.<String, String>builder()
                 .put("env", "prod")

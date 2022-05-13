@@ -1,4 +1,4 @@
-package com.uday.overlord;
+package com.uday.overlord.internal;
 
 import java.util.Collection;
 import java.util.Map;
@@ -7,6 +7,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.google.auto.value.AutoValue;
 import com.google.inject.ImplementedBy;
+import com.uday.overlord.internal.AutoValue_Key;
+import com.uday.overlord.internal.AutoValue_Value;
 
 @AutoValue
 abstract class Key {

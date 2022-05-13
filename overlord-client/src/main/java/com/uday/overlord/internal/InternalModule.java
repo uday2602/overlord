@@ -1,12 +1,13 @@
-package com.uday.overlord;
+package com.uday.overlord.internal;
 
 import com.google.inject.AbstractModule;
+import com.uday.overlord.contracts.Overlord;
 
-public class Module  extends AbstractModule {
+public class InternalModule extends AbstractModule {
   @Override
   protected void configure() {
-    bind(Overlord.class).to(OverlordImpl.class);
     bind(Flusher.class).to(FlusherImpl.class);
     bind(Aggregator.class).to(AggregatorImpl.class);
+    bind(Overlord.class).to(OverlordImpl.class);
   }
 }

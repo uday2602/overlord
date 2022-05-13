@@ -1,8 +1,9 @@
-package com.uday.overlord;
+package com.uday.overlord.contracts;
 
 import java.util.Map;
 
 import com.google.inject.ImplementedBy;
+import com.uday.overlord.internal.OverlordImpl;
 
 @ImplementedBy(OverlordImpl.class)
 public interface Overlord {

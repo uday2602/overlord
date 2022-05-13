@@ -2,9 +2,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.uday.overlord.Module;
+import com.uday.overlord.contracts.Environment;
+import com.uday.overlord.OverlordModule;
 
 public class Main {
 
@@ -17,10 +19,16 @@ public class Main {
   }
 
   private static void run() {
-    Injector injector = Guice.createInjector(new Module());
+    Injector injector = Guice.createInjector(new AbstractModule() {
+      @Override
+      protected void configure() {
+        install(new OverlordModule());
+        bind(Environment.class).to(Env.class);
+      }
+    });
     Service service = injector.getInstance(Service.class);
     ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
-    exec.scheduleAtFixedRate(service::request, 0, 500, TimeUnit.MICROSECONDS);
+    exec.scheduleAtFixedRate(service::request, 0, 2, TimeUnit.MICROSECONDS);
     while (true) {}
   }
 }
