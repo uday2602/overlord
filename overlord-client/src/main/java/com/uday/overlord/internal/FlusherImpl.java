@@ -3,32 +3,26 @@ package com.uday.overlord.internal;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collection;
 import javax.inject.Inject;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import static java.util.UUID.randomUUID;
 
 public class FlusherImpl implements Flusher {
 
-  private static final String FILE_NAME = "aggregator.log";
-  private BufferedWriter buffer;
+  private static final String DIR_NAME = "logs/";
   @Inject
   private Aggregator aggregator;
 
-  public FlusherImpl() {
-    try {
-      this.buffer = new BufferedWriter(new FileWriter(FILE_NAME, true));
-    } catch (IOException e) {
-      e.printStackTrace();
-      System.exit(1);
-    }
-  }
-
   @Override
   public synchronized void flush() {
-    StringBuilder mapAsString = new StringBuilder();
-    aggregator.getAndClear().forEach(entry -> {
-      mapAsString.append(rawLogs(entry)).append("\n");
-    });
     try {
-      buffer.append(mapAsString.toString());
+      BufferedWriter buffer = new BufferedWriter(
+          new FileWriter(DIR_NAME + randomUUID() + ".log", false));
+      buffer.append(rawLogs(aggregator.getAndClear()));
       buffer.flush();
     } catch (IOException e) {
       e.printStackTrace();
@@ -36,13 +30,15 @@ public class FlusherImpl implements Flusher {
     }
   }
 
-  private CharSequence rawLogs(Value entry) {
-    StringBuilder mapAsString = new StringBuilder();
-    entry.tags().entrySet().forEach(e -> {
-      mapAsString.append(e.getKey()).append("=").append(e.getValue()).append(";");
-    });
-    mapAsString.append("metric_name").append("=").append(entry.metricName()).append(";");
-    mapAsString.append("value").append("=").append(entry.counter().get()).append(";");
-    return mapAsString.toString();
+  private CharSequence rawLogs(Collection<Value> values) {
+    return new JSONArray(values.stream().map(entry -> {
+      JSONObject obj = new JSONObject();
+      entry.tags().entrySet().forEach(e -> {
+        obj.put(e.getKey(), e.getValue());
+      });
+      obj.put("metric_name", entry.metricName());
+      obj.put("value", entry.counter().get());
+      return obj;
+    }).toArray()).toString();
   }
 }
