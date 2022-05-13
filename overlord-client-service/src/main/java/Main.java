@@ -5,15 +5,15 @@ import java.util.concurrent.TimeUnit;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.uday.overlord.contracts.Environment;
 import com.uday.overlord.OverlordModule;
+import com.uday.overlord.contracts.Environment;
 
 public class Main {
 
   public static void main(String[] args) {
-    try{
+    try {
       run();
-    } catch (Exception e){
+    } catch (Exception e) {
       e.printStackTrace(); // line 31
     }
   }
@@ -29,6 +29,7 @@ public class Main {
     Service service = injector.getInstance(Service.class);
     ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
     exec.scheduleAtFixedRate(service::request, 0, 2, TimeUnit.MICROSECONDS);
-    while (true) {}
+    while (true) {
+    }
   }
 }

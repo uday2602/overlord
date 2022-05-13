@@ -7,17 +7,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.google.auto.value.AutoValue;
 import com.google.inject.ImplementedBy;
-import com.uday.overlord.internal.AutoValue_Key;
-import com.uday.overlord.internal.AutoValue_Value;
+
+@ImplementedBy(AggregatorImpl.class)
+public interface Aggregator {
+  void aggregate(String metricName, Map<String, String> tags);
+
+  Collection<Value> getAndClear();
+}
 
 @AutoValue
 abstract class Key {
   static Key create(String metricName, Map<String, String> tags) {
     return new AutoValue_Key(metricName, hash(tags));
   }
-
-  abstract String metricName();
-  abstract String tagsHash();
 
   private static String hash(Map<String, String> tags) {
     Map<String, String> map = new TreeMap<>(tags);
@@ -27,6 +29,10 @@ abstract class Key {
     }
     return mapAsString.toString();
   }
+
+  abstract String metricName();
+
+  abstract String tagsHash();
 }
 
 @AutoValue
@@ -36,12 +42,8 @@ abstract class Value {
   }
 
   abstract String metricName();
-  abstract Map<String, String> tags();
-  abstract AtomicInteger counter();
-}
 
-@ImplementedBy(AggregatorImpl.class)
-public interface Aggregator {
-  void aggregate(String metricName, Map<String, String> tags);
-  Collection<Value> getAndClear();
+  abstract Map<String, String> tags();
+
+  abstract AtomicInteger counter();
 }

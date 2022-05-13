@@ -13,8 +13,10 @@ import com.uday.overlord.contracts.Overlord;
 
 @Singleton
 public class OverlordImpl implements Overlord {
-  @Inject private Environment env;
-  @Inject private Aggregator aggregator;
+  @Inject
+  private Environment env;
+  @Inject
+  private Aggregator aggregator;
 
   @Inject
   public OverlordImpl(Environment env, Aggregator aggregator, Flusher flusher) {

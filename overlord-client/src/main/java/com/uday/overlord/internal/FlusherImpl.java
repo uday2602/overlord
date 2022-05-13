@@ -3,18 +3,15 @@ package com.uday.overlord.internal;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import javax.inject.Inject;
-
-import com.uday.overlord.internal.Value;
 
 public class FlusherImpl implements Flusher {
 
-  private BufferedWriter buffer;
-  @Inject private Aggregator aggregator;
-  
   private static final String FILE_NAME = "aggregator.log";
-  
+  private BufferedWriter buffer;
+  @Inject
+  private Aggregator aggregator;
+
   public FlusherImpl() {
     try {
       this.buffer = new BufferedWriter(new FileWriter(FILE_NAME, true));
@@ -23,6 +20,7 @@ public class FlusherImpl implements Flusher {
       System.exit(1);
     }
   }
+
   @Override
   public synchronized void flush() {
     StringBuilder mapAsString = new StringBuilder();

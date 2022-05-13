@@ -12,24 +12,16 @@ import com.google.inject.Singleton;
 @Singleton
 public class AggregatorImpl implements Aggregator {
 
-  enum State {
-    LOGGING,
-    FLUSHING
-  }
-  
   private final Map<Key, Value> counters;
-
-  private State state;
-
   private final Monitor monitor = new Monitor();
+  private State state;
   private final Monitor.Guard logging = monitor.newGuard(() -> state == State.LOGGING);
   private final Monitor.Guard flushing = monitor.newGuard(() -> state == State.FLUSHING);
-
   public AggregatorImpl() {
     this.counters = new ConcurrentHashMap<>();
     this.state = State.LOGGING;
   }
-  
+
   @Override
   public void aggregate(String metricName, Map<String, String> tags) {
     monitor.enterWhenUninterruptibly(logging);
@@ -56,5 +48,10 @@ public class AggregatorImpl implements Aggregator {
     } finally {
       monitor.leave();
     }
+  }
+
+  enum State {
+    LOGGING,
+    FLUSHING
   }
 }
