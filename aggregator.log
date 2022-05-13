@@ -1,0 +1,4 @@
+host=host_a;region=bangalore;env=prod;service=service_a;metric_name=metric_2;value=1;
+host=host_a;region=delhi;env=prod;service=service_a;metric_name=metric_1;value=2;
+host=host_a;region=bangalore;env=prod;service=service_a;metric_name=metric_1;value=1;
+host=host_a;region=delhi;env=prod;service=service_a;metric_name=metric_2;value=1;
