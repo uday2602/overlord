@@ -22,7 +22,7 @@ public class OverlordImpl implements Overlord {
 
   private void setupFlusher(Flusher flusher) {
     ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
-    exec.scheduleAtFixedRate((Runnable) () -> {
+    exec.scheduleAtFixedRate(() -> {
       flusher.flush();
     }, 0, 10, TimeUnit.SECONDS);
   }

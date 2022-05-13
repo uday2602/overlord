@@ -12,6 +12,5 @@ class Service {
     overlord.increment("metric_1", ImmutableMap.of("region", "bangalore"));
     overlord.increment("metric_2", ImmutableMap.of("region", "delhi"));
     overlord.increment("metric_2", ImmutableMap.of("region", "bangalore"));
-    while(true);
   }
 }
