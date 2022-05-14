@@ -4,12 +4,23 @@ import com.google.common.collect.ImmutableMap;
 import com.ujalan.overlord.contracts.Environment;
 
 public class Env implements Environment {
+
+  public static final String SERVICE = "overlord-client-service";
+  public static final String MACHINE = "ujalan-local-machine";
+  public static final String ENV = "prod";
+
   @Override
-  public Map<String, String> getTags() {
-    return ImmutableMap.<String, String>builder()
-        .put("env", "prod")
-        .put("host", "ujalan-local-machine")
-        .put("service", "overlord-client-service")
-        .build();
+  public String getService() {
+    return SERVICE;
+  }
+
+  @Override
+  public String getHost() {
+    return MACHINE;
+  }
+
+  @Override
+  public String getEnvironment() {
+    return ENV;
   }
 }

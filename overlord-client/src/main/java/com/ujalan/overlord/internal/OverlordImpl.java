@@ -34,7 +34,9 @@ public class OverlordImpl implements Overlord {
   public void increment(String metricName, Map<String, String> userTags) {
     Map<String, String> tags = new HashMap<>();
     tags.putAll(userTags);
-    tags.putAll(env.getTags());
+    tags.put("service", env.getService());
+    tags.put("host", env.getHost());
+    tags.put("env", env.getEnvironment());
     aggregator.aggregate(metricName, tags);
   }
 }

@@ -30,7 +30,7 @@ public class FlusherImpl implements Flusher {
   public FlusherImpl(Aggregator aggregator, Environment env) {
     this.aggregator = aggregator;
     this.env = env;
-    this.dirName = "/tmp/" + env.getTags().get("service") + "/logs/";
+    this.dirName = "/tmp/" + env.getService() + "/logs/";
 
   }
 
