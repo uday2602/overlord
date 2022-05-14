@@ -1,7 +1,17 @@
 apiVersion: influxdata.com/v2alpha1
 kind: Bucket
 metadata:
-    name: brave-swirles-c82005
+    name: boring-poitras-0ec003
+spec:
+    name: overlord_5min
+    retentionRules:
+      - everySeconds: 172800
+        type: expire
+---
+apiVersion: influxdata.com/v2alpha1
+kind: Bucket
+metadata:
+    name: gracious-brown-0ec005
 spec:
     name: overlord_raw
     retentionRules:
@@ -11,7 +21,7 @@ spec:
 apiVersion: influxdata.com/v2alpha1
 kind: Bucket
 metadata:
-    name: burfect-leavitt-c82001
+    name: wizardly-swartz-0ec001
 spec:
     name: overlord_1min
     retentionRules:
@@ -19,36 +29,9 @@ spec:
         type: expire
 ---
 apiVersion: influxdata.com/v2alpha1
-kind: Bucket
-metadata:
-    name: determined-curie-c82003
-spec:
-    name: overlord_5min
-    retentionRules:
-      - everySeconds: 172800
-        type: expire
----
-apiVersion: influxdata.com/v2alpha1
 kind: Task
 metadata:
-    name: agitated-perlman-082001
-spec:
-    every: 1m
-    name: downsampling 1min
-    offset: 2m0s
-    query: |-
-        data =
-            from(bucket: "overlord_raw")
-                |> range(start: -task.every)
-
-        data
-            |> aggregateWindow(every: 1m, fn: sum, createEmpty: true)
-            |> to(bucket: "overlord_1min", org: "ujalan")
----
-apiVersion: influxdata.com/v2alpha1
-kind: Task
-metadata:
-    name: beautiful-agnesi-082003
+    name: compassionate-wozniak-0ec007
 spec:
     every: 5m
     name: downsampling 5min
@@ -63,9 +46,26 @@ spec:
             |> to(bucket: "overlord_5min", org: "ujalan")
 ---
 apiVersion: influxdata.com/v2alpha1
+kind: Task
+metadata:
+    name: suspicious-robinson-0ec009
+spec:
+    every: 1m
+    name: downsampling 1min
+    offset: 2m0s
+    query: |-
+        data =
+            from(bucket: "overlord_raw")
+                |> range(start: -task.every)
+
+        data
+            |> aggregateWindow(every: 1m, fn: sum, createEmpty: true)
+            |> to(bucket: "overlord_1min", org: "ujalan")
+---
+apiVersion: influxdata.com/v2alpha1
 kind: Variable
 metadata:
-    name: earning-wozniak-082005
+    name: rightful-ritchie-0ec00b
 spec:
     language: flux
     name: bucket
@@ -79,167 +79,7 @@ spec:
 apiVersion: influxdata.com/v2alpha1
 kind: Dashboard
 metadata:
-    name: condescending-borg-082007
-spec:
-    charts:
-      - axes:
-          - base: "10"
-            name: x
-            scale: linear
-          - base: "10"
-            name: "y"
-            scale: linear
-        colorizeRows: true
-        colors:
-          - hex: '#31C0F6'
-            id: 220618a5-9807-46e7-b4b9-adfeab906266
-            name: Nineteen Eighty Four
-            type: scale
-          - hex: '#A500A5'
-            id: af053371-b225-4b9d-8f8f-2f017b09a8e2
-            name: Nineteen Eighty Four
-            type: scale
-          - hex: '#FF7E27'
-            id: 8bd706f6-3d15-49d8-a8f1-2db205c16014
-            name: Nineteen Eighty Four
-            type: scale
-        geom: line
-        height: 4
-        hoverDimension: auto
-        kind: Xy
-        legendColorizeRows: true
-        legendOpacity: 1
-        legendOrientationThreshold: 1e+08
-        name: raw_mertic
-        opacity: 1
-        orientationThreshold: 1e+08
-        position: overlaid
-        queries:
-          - query: |-
-                from(bucket: "overlord_raw")
-                  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
-                  |> filter(fn: (r) => r["_measurement"] == "metric_1")
-                  |> filter(fn: (r) => r["_field"] == "value")
-                  |> filter(fn: (r) => r["host"] == "ujalan-local-machine")
-                  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
-                  |> yield(name: "mean")
-        staticLegend:
-            colorizeRows: true
-            opacity: 1
-            orientationThreshold: 1e+08
-            widthRatio: 1
-        width: 4
-        widthRatio: 1
-        xCol: _time
-        yCol: _value
-      - axes:
-          - base: "10"
-            name: x
-            scale: linear
-          - base: "10"
-            name: "y"
-            scale: linear
-        colorizeRows: true
-        colors:
-          - hex: '#31C0F6'
-            id: 220618a5-9807-46e7-b4b9-adfeab906266
-            name: Nineteen Eighty Four
-            type: scale
-          - hex: '#A500A5'
-            id: af053371-b225-4b9d-8f8f-2f017b09a8e2
-            name: Nineteen Eighty Four
-            type: scale
-          - hex: '#FF7E27'
-            id: 8bd706f6-3d15-49d8-a8f1-2db205c16014
-            name: Nineteen Eighty Four
-            type: scale
-        geom: line
-        height: 4
-        hoverDimension: auto
-        kind: Xy
-        legendColorizeRows: true
-        legendOpacity: 1
-        legendOrientationThreshold: 1e+08
-        name: 1min_metrics
-        opacity: 1
-        orientationThreshold: 1e+08
-        position: overlaid
-        queries:
-          - query: |-
-                from(bucket: "overlord_1min")
-                  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
-                  |> filter(fn: (r) => r["_measurement"] == "metric_1")
-                  |> filter(fn: (r) => r["_field"] == "value")
-                  |> filter(fn: (r) => r["host"] == "ujalan-local-machine")
-                  |> aggregateWindow(every: v.windowPeriod, fn: sum, createEmpty: false)
-                  |> yield(name: "sum")
-        staticLegend:
-            colorizeRows: true
-            opacity: 1
-            orientationThreshold: 1e+08
-            widthRatio: 1
-        width: 4
-        widthRatio: 1
-        xCol: _time
-        xPos: 4
-        yCol: _value
-      - axes:
-          - base: "10"
-            name: x
-            scale: linear
-          - base: "10"
-            name: "y"
-            scale: linear
-        colorizeRows: true
-        colors:
-          - hex: '#31C0F6'
-            id: 220618a5-9807-46e7-b4b9-adfeab906266
-            name: Nineteen Eighty Four
-            type: scale
-          - hex: '#A500A5'
-            id: af053371-b225-4b9d-8f8f-2f017b09a8e2
-            name: Nineteen Eighty Four
-            type: scale
-          - hex: '#FF7E27'
-            id: 8bd706f6-3d15-49d8-a8f1-2db205c16014
-            name: Nineteen Eighty Four
-            type: scale
-        geom: line
-        height: 4
-        hoverDimension: auto
-        kind: Xy
-        legendColorizeRows: true
-        legendOpacity: 1
-        legendOrientationThreshold: 1e+08
-        name: 5 min metric
-        opacity: 1
-        orientationThreshold: 1e+08
-        position: overlaid
-        queries:
-          - query: |-
-                from(bucket: "overlord_5min")
-                  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
-                  |> filter(fn: (r) => r["_measurement"] == "metric_1")
-                  |> filter(fn: (r) => r["_field"] == "value")
-                  |> filter(fn: (r) => r["host"] == "ujalan-local-machine")
-                  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
-                  |> yield(name: "mean")
-        staticLegend:
-            colorizeRows: true
-            opacity: 1
-            orientationThreshold: 1e+08
-            widthRatio: 1
-        width: 4
-        widthRatio: 1
-        xCol: _time
-        xPos: 8
-        yCol: _value
-    name: Demo Dash
----
-apiVersion: influxdata.com/v2alpha1
-kind: Dashboard
-metadata:
-    name: fasting-wozniak-082001
+    name: shiny-hamilton-cec001
 spec:
     charts:
       - height: 1
@@ -651,3 +491,163 @@ spec:
     description: A collection of useful visualizations for monitoring your local InfluxDB
         2.0 OSS instance.
     name: InfluxDB 2.0 OSS Metrics
+---
+apiVersion: influxdata.com/v2alpha1
+kind: Dashboard
+metadata:
+    name: stoic-ritchie-0ec001
+spec:
+    charts:
+      - axes:
+          - base: "10"
+            name: x
+            scale: linear
+          - base: "10"
+            name: "y"
+            scale: linear
+        colorizeRows: true
+        colors:
+          - hex: '#31C0F6'
+            id: 220618a5-9807-46e7-b4b9-adfeab906266
+            name: Nineteen Eighty Four
+            type: scale
+          - hex: '#A500A5'
+            id: af053371-b225-4b9d-8f8f-2f017b09a8e2
+            name: Nineteen Eighty Four
+            type: scale
+          - hex: '#FF7E27'
+            id: 8bd706f6-3d15-49d8-a8f1-2db205c16014
+            name: Nineteen Eighty Four
+            type: scale
+        geom: line
+        height: 4
+        hoverDimension: auto
+        kind: Xy
+        legendColorizeRows: true
+        legendOpacity: 1
+        legendOrientationThreshold: 1e+08
+        name: raw_mertic
+        opacity: 1
+        orientationThreshold: 1e+08
+        position: overlaid
+        queries:
+          - query: |-
+                from(bucket: "overlord_raw")
+                  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+                  |> filter(fn: (r) => r["_measurement"] == "metric_1")
+                  |> filter(fn: (r) => r["_field"] == "value")
+                  |> filter(fn: (r) => r["host"] == "ujalan-local-machine")
+                  |> aggregateWindow(every: v.windowPeriod, fn: sum, createEmpty: false)
+                  |> yield(name: "sum")
+        staticLegend:
+            colorizeRows: true
+            opacity: 1
+            orientationThreshold: 1e+08
+            widthRatio: 1
+        width: 4
+        widthRatio: 1
+        xCol: _time
+        yCol: _value
+      - axes:
+          - base: "10"
+            name: x
+            scale: linear
+          - base: "10"
+            name: "y"
+            scale: linear
+        colorizeRows: true
+        colors:
+          - hex: '#31C0F6'
+            id: 220618a5-9807-46e7-b4b9-adfeab906266
+            name: Nineteen Eighty Four
+            type: scale
+          - hex: '#A500A5'
+            id: af053371-b225-4b9d-8f8f-2f017b09a8e2
+            name: Nineteen Eighty Four
+            type: scale
+          - hex: '#FF7E27'
+            id: 8bd706f6-3d15-49d8-a8f1-2db205c16014
+            name: Nineteen Eighty Four
+            type: scale
+        geom: line
+        height: 4
+        hoverDimension: auto
+        kind: Xy
+        legendColorizeRows: true
+        legendOpacity: 1
+        legendOrientationThreshold: 1e+08
+        name: 1min_metrics
+        opacity: 1
+        orientationThreshold: 1e+08
+        position: overlaid
+        queries:
+          - query: |-
+                from(bucket: "overlord_1min")
+                  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+                  |> filter(fn: (r) => r["_measurement"] == "metric_1")
+                  |> filter(fn: (r) => r["_field"] == "value")
+                  |> filter(fn: (r) => r["host"] == "ujalan-local-machine")
+                  |> aggregateWindow(every: v.windowPeriod, fn: sum, createEmpty: false)
+                  |> yield(name: "sum")
+        staticLegend:
+            colorizeRows: true
+            opacity: 1
+            orientationThreshold: 1e+08
+            widthRatio: 1
+        width: 4
+        widthRatio: 1
+        xCol: _time
+        xPos: 4
+        yCol: _value
+      - axes:
+          - base: "10"
+            name: x
+            scale: linear
+          - base: "10"
+            name: "y"
+            scale: linear
+        colorizeRows: true
+        colors:
+          - hex: '#31C0F6'
+            id: 220618a5-9807-46e7-b4b9-adfeab906266
+            name: Nineteen Eighty Four
+            type: scale
+          - hex: '#A500A5'
+            id: af053371-b225-4b9d-8f8f-2f017b09a8e2
+            name: Nineteen Eighty Four
+            type: scale
+          - hex: '#FF7E27'
+            id: 8bd706f6-3d15-49d8-a8f1-2db205c16014
+            name: Nineteen Eighty Four
+            type: scale
+        geom: line
+        height: 4
+        hoverDimension: auto
+        kind: Xy
+        legendColorizeRows: true
+        legendOpacity: 1
+        legendOrientationThreshold: 1e+08
+        name: 5 min metric
+        opacity: 1
+        orientationThreshold: 1e+08
+        position: overlaid
+        queries:
+          - query: |-
+                from(bucket: "overlord_5min")
+                  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+                  |> filter(fn: (r) => r["_measurement"] == "metric_1")
+                  |> filter(fn: (r) => r["_field"] == "value")
+                  |> filter(fn: (r) => r["host"] == "ujalan-local-machine")
+                  |> aggregateWindow(every: v.windowPeriod, fn: sum, createEmpty: false)
+                  |> yield(name: "sum")
+        staticLegend:
+            colorizeRows: true
+            opacity: 1
+            orientationThreshold: 1e+08
+            widthRatio: 1
+        width: 4
+        widthRatio: 1
+        xCol: _time
+        xPos: 8
+        yCol: _value
+    name: Demo Dash
