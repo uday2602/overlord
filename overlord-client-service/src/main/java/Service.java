@@ -1,6 +1,6 @@
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
-import com.uday.overlord.contracts.Overlord;
+import com.ujalan.overlord.contracts.Overlord;
 
 class Service {
   @Inject

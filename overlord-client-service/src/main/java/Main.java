@@ -5,8 +5,8 @@ import java.util.concurrent.TimeUnit;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.uday.overlord.OverlordModule;
-import com.uday.overlord.contracts.Environment;
+import com.ujalan.overlord.OverlordModule;
+import com.ujalan.overlord.contracts.Environment;
 
 public class Main {
 

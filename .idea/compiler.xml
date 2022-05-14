@@ -11,6 +11,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="overlord" target="11" />
       <module name="overlord-client" target="11" />
       <module name="overlord-client-service" target="11" />
     </bytecodeTargetLevel>
