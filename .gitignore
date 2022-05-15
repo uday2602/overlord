@@ -1,5 +1,5 @@
-.idea
-out
+.idea/
+out/
 overlord.iml
 
 /overlord-client/target/

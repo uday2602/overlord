@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/overlord-client/overlord-client.iml" filepath="$PROJECT_DIR$/overlord-client/overlord-client.iml" />
-      <module fileurl="file://$PROJECT_DIR$/overlord-client-service/overlord-client-service.iml" filepath="$PROJECT_DIR$/overlord-client-service/overlord-client-service.iml" />
-    </modules>
-  </component>
-</project>
