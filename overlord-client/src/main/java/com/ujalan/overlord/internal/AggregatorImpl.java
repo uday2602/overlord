@@ -15,8 +15,7 @@ public class AggregatorImpl implements Aggregator {
   private final Map<Key, Value> counters;
   private final Monitor monitor = new Monitor();
   private State state;
-  private final Monitor.Guard logging = monitor.newGuard(() -> state == State.LOGGING);
-  private final Monitor.Guard flushing = monitor.newGuard(() -> state == State.FLUSHING);
+  private final Monitor.Guard idle = monitor.newGuard(() -> state == State.IDLE);
 
   public AggregatorImpl() {
     this.counters = new ConcurrentHashMap<>();
@@ -25,7 +24,8 @@ public class AggregatorImpl implements Aggregator {
 
   @Override
   public void aggregate(String metricName, Map<String, String> tags) {
-    monitor.enterWhenUninterruptibly(logging);
+    monitor.enterWhenUninterruptibly(idle);
+    state = State.LOGGING;
     try {
       Key key = Key.create(metricName, tags);
       Value value = counters.getOrDefault(key,
@@ -33,25 +33,27 @@ public class AggregatorImpl implements Aggregator {
       value.counter().addAndGet(1);
       counters.put(key, value);
     } finally {
+      state = State.IDLE;
       monitor.leave();
     }
   }
 
   @Override
   public synchronized Collection<Value> getAndClear() {
+    monitor.enterWhenUninterruptibly(idle);
     state = State.FLUSHING;
-    monitor.enterWhenUninterruptibly(flushing);
     try {
       HashMap<Key, Value> copyMap = new HashMap<>(counters);
       counters.clear();
-      state = State.LOGGING;
       return copyMap.values();
     } finally {
+      state = State.IDLE;
       monitor.leave();
     }
   }
 
   enum State {
+    IDLE,
     LOGGING,
     FLUSHING
   }
