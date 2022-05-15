@@ -6,7 +6,9 @@ This project contains 3 modules
 --- This module has a `telegraf.conf` file which reads the metrics aggregates them and sends to the influxDB<br>
 --- It has a `run.sh` which has the required commands to run the client-service and the telegraf plugin<br>
 <b>Note: External dependencies has to be installed seperately.</b><br>
-- influx.tmpl has the code to create the influxdb with the right buckets, retention policies, tasks and dashboards
+- influx.tmpl has the code to create the influxdb with the right buckets, retention policies, tasks and dashboards<br>
+--- there are multiple buckets for different metrics aggregation window. i.e. one for raw_logs, 1min, 5min, etc<br>
+--- tasks has downsampled tasks which read from raw logs and downsample to appropriate buckets<br>
 
 Following is how the sampled data looks like
 
