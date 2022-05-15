@@ -1,6 +1,6 @@
 # overlord
 
-This project contains 2 modules
+This project contains 3 modules
 - overlord-client -> which has API and internal implementation of the overlord library
 - overlord-client-service -> this is a sample service logging the metrics to overlord library<br>
 --- This module has a `telegraf.conf` file which reads the metrics aggregates them and sends to the influxDB<br>
