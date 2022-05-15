@@ -1,0 +1,7 @@
+overlord.iml
+
+/overlord-client/target/
+/overlord-client/overlord-client.iml
+
+/overlord-client-service/target/
+/overlord-client-service/overlord-client-service.iml
